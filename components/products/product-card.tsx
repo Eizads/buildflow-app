@@ -12,15 +12,10 @@ import { Badge } from "../ui/badge"
 import { StarIcon, ChevronUpIcon, ChevronDownIcon } from "lucide-react"
 import Link from "next/link"
 import { Button } from "../ui/button"
+import { InferSelectModel } from "drizzle-orm"
+import { products } from "@/db/schema"
 
-type Product = {
-  id: number
-  name: string
-  description: string
-  tags: string[]
-  isFeatured: boolean
-  votes: number
-}
+type Product = InferSelectModel<typeof products>
 
 function ProductCard({ product }: { product: Product }) {
   const [hasVoted, setHasVoted] = useState(false)
@@ -35,15 +30,16 @@ function ProductCard({ product }: { product: Product }) {
 
   return (
     <Link href={`/products/${product.id}`}>
-      <Card className="flex flex-col justify-between card-hover group hover:shadow-lg hover:scale-105 transition-all duration-300 min-h-[160px]">
+      <Card className="flex flex-col justify-between card-hover group hover:shadow-lg hover:scale-105 transition-all duration-300 min-h-[240px] sm:min-h-[350px] xl:min-h-[275px]">
         <CardHeader className="flex-1">
           <div className="flex flex-row items-start justify-between">
             <div>
-              <div className="flex flex-row items-center justify-between gap-2">
+              <div className="flex flex-row items-center justify-between gap-2 mb-2">
                 <CardTitle className="text-lg font-bold group-hover:text-sky-700 transition-all duration-300">
                   {product.name}
                 </CardTitle>
-                {product.isFeatured && (
+                {/* Show featured badge if vote count is greater than 100 */}
+                {product.voteCount > 100 && (
                   <Badge className="bg-sky-500 text-white" variant="default">
                     <StarIcon className="w-4 h-4 fill-current" /> Featured
                   </Badge>
@@ -65,7 +61,7 @@ function ProductCard({ product }: { product: Product }) {
                 <ChevronUpIcon className="w-4 h-4 " />
               </Button>
               <span className="text-sm font-semibold transition-colors">
-                {product.votes}
+                {product.voteCount}
               </span>
               <Button
                 variant="ghost"
@@ -80,7 +76,7 @@ function ProductCard({ product }: { product: Product }) {
         </CardHeader>
         <CardContent>
           <CardFooter className="px-0 gap-2 flex-wrap">
-            {product.tags.map(tag => (
+            {product.tags?.map(tag => (
               <Badge key={tag} className="text-sm" variant="secondary">
                 {tag}
               </Badge>

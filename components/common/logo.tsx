@@ -4,7 +4,7 @@ import { RocketIcon } from "lucide-react"
 const Logo = () => {
   return (
     <Link
-      href="/products"
+      href="/"
       className="flex flex-row items-center justify-start gap-2 group"
     >
       <RocketIcon className="w-4 h-4 group-hover:text-sky-500 transition-colors text-sky-500" />

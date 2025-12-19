@@ -9,6 +9,8 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs"
+import { Suspense } from "react"
+import AuthSkeleton from "../skeleton/auth-skeleton"
 
 function Header() {
   return (
@@ -31,21 +33,24 @@ function Header() {
             Explore
           </Link>
         </nav>
+
         <div className="flex flex-row items-center justify-start gap-3">
-          <SignedOut>
-            <SignInButton />
-            <SignUpButton>
-              <Button>Sign Up</Button>
-            </SignUpButton>
-          </SignedOut>
-          <SignedIn>
-            <Button asChild>
-              <Link href="/submit-project">
-                <SparklesIcon className="w-4 h-4" /> Submit a Project
-              </Link>
-            </Button>
-            <UserButton />
-          </SignedIn>
+          <Suspense fallback={<AuthSkeleton />}>
+            <SignedOut>
+              <SignInButton />
+              <SignUpButton>
+                <Button>Sign Up</Button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <Button asChild>
+                <Link href="/submit-project">
+                  <SparklesIcon className="w-4 h-4" /> Submit a Project
+                </Link>
+              </Button>
+              <UserButton />
+            </SignedIn>
+          </Suspense>
         </div>
       </div>
     </header>
