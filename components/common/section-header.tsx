@@ -3,16 +3,19 @@ function SectionHeader({
   icon: Icon,
   title,
   description,
+  headingLevel = "h2",
 }: {
   icon: LucideIcon
   title: string
   description: string
+  headingLevel?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
 }) {
+  const HeadingTag = headingLevel
   return (
     <div>
       <div className="flex flex-row items-center justify-start gap-2 mb-2">
         <Icon className="w-4 h-4 text-sky-500" />
-        <h2 className="text-2xl font-bold">{title}</h2>
+        <HeadingTag className="text-2xl font-bold">{title}</HeadingTag>
       </div>
       <p>{description}</p>
     </div>
