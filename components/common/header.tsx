@@ -1,3 +1,5 @@
+"use client"
+
 import { HomeIcon, CompassIcon, SparklesIcon, MenuIcon } from "lucide-react"
 import Link from "next/link"
 import { Button } from "../ui/button"

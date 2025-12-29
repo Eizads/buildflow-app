@@ -20,7 +20,7 @@ export default function StatsCard({
         )}
       >
         <Icon className="w-4 h-4 text-sky-500" />
-        <span className="text-2xl font-bold">{value}</span>
+        <span className="md:text-2xl text-sm font-bold">{value}</span>
       </div>
       <div className="text-sm text-muted-foreground">{title}</div>
     </div>
