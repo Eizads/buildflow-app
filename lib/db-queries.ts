@@ -43,3 +43,13 @@ export async function getProductById(id: number) {
 
   return product || null
 }
+
+export async function getProductBySlug(slug: string) {
+  const [product] = await db
+    .select()
+    .from(products)
+    .where(eq(products.slug, slug))
+    .limit(1)
+
+  return product || null
+}

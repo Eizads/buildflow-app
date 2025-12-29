@@ -1,4 +1,4 @@
-import { HomeIcon, CompassIcon, SparklesIcon } from "lucide-react"
+import { HomeIcon, CompassIcon, SparklesIcon, MenuIcon } from "lucide-react"
 import Link from "next/link"
 import { Button } from "../ui/button"
 import Logo from "../common/logo"
@@ -11,13 +11,80 @@ import {
 } from "@clerk/nextjs"
 import { Suspense } from "react"
 import AuthSkeleton from "../skeleton/auth-skeleton"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"
 
 function Header() {
   return (
     <header className="bg-background/20 border-b border-zinc-300 sticky top-0 z-50 backdrop-blur-sm">
       <div className="container flex flex-row items-center justify-between py-4 ">
         <Logo />
-        <nav className="flex flex-row items-center justify-start gap-2">
+
+        {/* Mobile Menu */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              aria-label="Open menu"
+            >
+              <MenuIcon className="h-5 w-5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuItem asChild>
+              <Link href="/" className="flex items-center gap-2 w-full">
+                <HomeIcon className="w-4 h-4" />
+                Home
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/products" className="flex items-center gap-2 w-full">
+                <CompassIcon className="w-4 h-4" />
+                Explore
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <Suspense fallback={<AuthSkeleton />}>
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                    Sign In
+                  </DropdownMenuItem>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                    Sign Up
+                  </DropdownMenuItem>
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/submit"
+                    className="flex items-center gap-2 w-full"
+                  >
+                    <SparklesIcon className="w-4 h-4" />
+                    Submit a Project
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <div className="px-2 py-1.5">
+                  <UserButton />
+                </div>
+              </SignedIn>
+            </Suspense>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex flex-row items-center justify-start gap-2">
           <Link
             href="/"
             className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-muted-foreground  hover:text-foreground transition-colors hover:bg-muted/50"
@@ -34,7 +101,8 @@ function Header() {
           </Link>
         </nav>
 
-        <div className="flex flex-row items-center justify-start gap-3">
+        {/* Desktop Auth Buttons */}
+        <div className="hidden md:flex flex-row items-center justify-start gap-3">
           <Suspense fallback={<AuthSkeleton />}>
             <SignedOut>
               <SignInButton />
@@ -44,7 +112,7 @@ function Header() {
             </SignedOut>
             <SignedIn>
               <Button asChild>
-                <Link href="/submit-project">
+                <Link href="/submit">
                   <SparklesIcon className="w-4 h-4" /> Submit a Project
                 </Link>
               </Button>
@@ -53,7 +121,6 @@ function Header() {
           </Suspense>
         </div>
       </div>
-      {/* <AuthSkeleton /> */}
     </header>
   )
 }
