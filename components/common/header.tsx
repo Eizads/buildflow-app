@@ -47,7 +47,7 @@ function Header() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/products" className="flex items-center gap-2 w-full">
+              <Link href="/explore" className="flex items-center gap-2 w-full">
                 <CompassIcon className="w-4 h-4" />
                 Explore
               </Link>
@@ -95,7 +95,7 @@ function Header() {
           </Link>
 
           <Link
-            href="/products"
+            href="/explore"
             className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-muted-foreground  hover:text-foreground transition-colors hover:bg-muted/50"
           >
             <CompassIcon className="w-4 h-4 text-gray-500" />
