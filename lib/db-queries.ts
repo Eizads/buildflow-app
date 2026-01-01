@@ -1,18 +1,23 @@
 import { db } from "@/db"
 import { products } from "@/db/schema"
-import { eq, desc } from "drizzle-orm"
+import { eq, desc, gt } from "drizzle-orm"
 import { connection } from "next/server"
+
+export async function getAllProducts() {
+  const totalProducts = await db.select().from(products)
+  return totalProducts
+}
 
 export async function getFeaturedProducts() {
   "use cache"
   const productsData = await db
     .select()
     .from(products)
-    .where(eq(products.status, "approved"))
+    .where((eq(products.status, "approved"), gt(products.voteCount, 100)))
     .orderBy(desc(products.voteCount))
   return productsData
 }
-export async function getAllProducts() {
+export async function getAllApprovedProducts() {
   const productsData = await db
     .select()
     .from(products)
@@ -23,7 +28,7 @@ export async function getAllProducts() {
 
 export async function getRecentlyLaunchedProducts() {
   await connection()
-  const productsData = await getAllProducts()
+  const productsData = await getAllApprovedProducts()
   const thirtyDaysAgo = new Date()
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
   console.log(typeof thirtyDaysAgo)

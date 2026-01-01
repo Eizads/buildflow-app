@@ -14,7 +14,7 @@ function SectionHeader({
   return (
     <div>
       <div className="flex flex-row items-center justify-start gap-2 mb-2">
-        <Icon className="w-4 h-4 text-sky-500" />
+        <Icon className="w-6 h-6 text-sky-500" />
         <HeadingTag className="text-2xl font-bold">{title}</HeadingTag>
       </div>
       <p>{description}</p>

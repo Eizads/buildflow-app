@@ -178,6 +178,7 @@ export async function upvoteProductAction(productId: number) {
       .limit(1)
 
     revalidatePath("/")
+    revalidatePath("/explore")
     if (product?.slug) {
       revalidatePath(`/products/${product.slug}`)
     }
@@ -218,6 +219,7 @@ export async function downvoteProductAction(productId: number) {
       .limit(1)
 
     revalidatePath("/")
+    revalidatePath("/explore")
     if (product?.slug) {
       revalidatePath(`/products/${product.slug}`)
     }

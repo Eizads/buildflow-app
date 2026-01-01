@@ -4,13 +4,7 @@ import { HomeIcon, CompassIcon, SparklesIcon, MenuIcon } from "lucide-react"
 import Link from "next/link"
 import { Button } from "../ui/button"
 import Logo from "../common/logo"
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs"
+import { SignInButton, SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs"
 import { Suspense } from "react"
 import AuthSkeleton from "../skeleton/auth-skeleton"
 import {
@@ -20,6 +14,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
+import CustomUserButton from "./custom-user-button"
 
 function Header() {
   return (
@@ -28,62 +23,63 @@ function Header() {
         <Logo />
 
         {/* Mobile Menu */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              aria-label="Open menu"
-            >
-              <MenuIcon className="h-5 w-5" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuItem asChild>
-              <Link href="/" className="flex items-center gap-2 w-full">
-                <HomeIcon className="w-4 h-4" />
-                Home
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/explore" className="flex items-center gap-2 w-full">
-                <CompassIcon className="w-4 h-4" />
-                Explore
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <Suspense fallback={<AuthSkeleton />}>
-              <SignedOut>
-                <SignInButton mode="modal">
-                  <DropdownMenuItem onSelect={e => e.preventDefault()}>
-                    Sign In
+        <div className="flex flex-row items-center gap-2 md:hidden">
+          <Suspense fallback={<AuthSkeleton />}>
+            <SignedIn>
+              <CustomUserButton />
+            </SignedIn>
+          </Suspense>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Open menu">
+                <MenuIcon className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-full z-50">
+              <DropdownMenuItem asChild>
+                <Link href="/" className="flex items-center gap-2 w-full">
+                  <HomeIcon className="w-4 h-4" />
+                  Home
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link
+                  href="/explore"
+                  className="flex items-center gap-2 w-full"
+                >
+                  <CompassIcon className="w-4 h-4" />
+                  Explore
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <Suspense fallback={<AuthSkeleton />}>
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                      Sign In
+                    </DropdownMenuItem>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                      Sign Up
+                    </DropdownMenuItem>
+                  </SignUpButton>
+                </SignedOut>
+                <SignedIn>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href="/submit"
+                      className="flex items-center gap-2 w-full"
+                    >
+                      <SparklesIcon className="w-4 h-4" />
+                      Submit a Project
+                    </Link>
                   </DropdownMenuItem>
-                </SignInButton>
-                <SignUpButton mode="modal">
-                  <DropdownMenuItem onSelect={e => e.preventDefault()}>
-                    Sign Up
-                  </DropdownMenuItem>
-                </SignUpButton>
-              </SignedOut>
-              <SignedIn>
-                <DropdownMenuItem asChild>
-                  <Link
-                    href="/submit"
-                    className="flex items-center gap-2 w-full"
-                  >
-                    <SparklesIcon className="w-4 h-4" />
-                    Submit a Project
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <div className="px-2 py-1.5">
-                  <UserButton />
-                </div>
-              </SignedIn>
-            </Suspense>
-          </DropdownMenuContent>
-        </DropdownMenu>
+                </SignedIn>
+              </Suspense>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex flex-row items-center justify-start gap-2">
@@ -118,7 +114,7 @@ function Header() {
                   <SparklesIcon className="w-4 h-4" /> Submit a Project
                 </Link>
               </Button>
-              <UserButton />
+              <CustomUserButton />
             </SignedIn>
           </Suspense>
         </div>
