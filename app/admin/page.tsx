@@ -10,13 +10,13 @@ import AdminProductCard from "@/components/admin/admin-product-card"
 export default async function AdminPage() {
   // checking if user is authenticated and is an admin
   const { userId } = await auth()
-  console.log("userId", userId)
+  // console.log("userId", userId) // Commented out for production - exposes user IDs
   if (!userId) {
     return redirect("/sign-in")
   }
   const client = await clerkClient()
   const user = await client.users.getUser(userId)
-  console.log("user", user)
+  // console.log("user", user) // Commented out for production - exposes sensitive user data (emails, metadata, etc.)
   const metadata = user.publicMetadata
   const isAdmin = metadata?.isAdmin ?? false
   if (!isAdmin) {

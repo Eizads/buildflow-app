@@ -72,15 +72,15 @@ export async function addProductAction(prevState: State, formData: FormData) {
     const userEmail = user?.emailAddresses[0].emailAddress || "anonymous"
     //data
     const data = Object.fromEntries(formData.entries())
-    console.log(data, "form submitted")
+    // console.log(data, "form submitted") // Commented out for production - exposes user form input
 
     //validate data
     const validatedFields = productSchema.safeParse(data)
     if (!validatedFields.success) {
-      console.log(
-        validatedFields.error.flatten().fieldErrors,
-        "invalid form data"
-      )
+      // console.log(
+      //   validatedFields.error.flatten().fieldErrors,
+      //   "invalid form data"
+      // ) // Commented out for production - exposes user input validation errors
       return {
         success: false,
         errors: validatedFields.error.flatten().fieldErrors,

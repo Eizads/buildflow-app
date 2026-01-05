@@ -37,7 +37,7 @@ export default function ProductVoting({ product }: { product: Product }) {
   )
 
   const handleVote = async (e: React.MouseEvent, direction: "up" | "down") => {
-    console.log("handleVote called", direction, "isSignedIn:", isSignedIn)
+    // console.log("handleVote called", direction, "isSignedIn:", isSignedIn) // Commented out for production - tracks user behavior
     e.stopPropagation()
     e.preventDefault()
 
@@ -47,11 +47,11 @@ export default function ProductVoting({ product }: { product: Product }) {
       })
       const result = await upvoteProductAction(product.id)
       if (result.success) {
-        console.log(result, "upvote result")
+        // console.log(result, "upvote result") // Commented out for production
         // Don't manually update voteCount - revalidatePath will refresh the data
         // The optimistic value will sync when the component re-renders with new data
       } else {
-        console.log(result, "upvote failed")
+        // console.log(result, "upvote failed") // Commented out for production
         toast.error(result.message)
         startTransition(() => {
           setOptimisticVoteCount("down") // Revert optimistic update
@@ -63,11 +63,11 @@ export default function ProductVoting({ product }: { product: Product }) {
       })
       const result = await downvoteProductAction(product.id)
       if (result.success) {
-        console.log(result, "downvote result")
+        // console.log(result, "downvote result") // Commented out for production
         // Don't manually update voteCount - revalidatePath will refresh the data
         // The optimistic value will sync when the component re-renders with new data
       } else {
-        console.log(result, "downvote failed")
+        // console.log(result, "downvote failed") // Commented out for production
         toast.error(result.message)
         startTransition(() => {
           setOptimisticVoteCount("up") // Revert optimistic update
@@ -75,7 +75,7 @@ export default function ProductVoting({ product }: { product: Product }) {
       }
     }
     // Handle vote logic here
-    console.log(`Vote ${direction} for product ${product.slug}`)
+    // console.log(`Vote ${direction} for product ${product.slug}`) // Commented out for production - tracks user behavior
   }
   return (
     <div
