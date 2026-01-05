@@ -10,16 +10,12 @@ import {
 import { InferSelectModel } from "drizzle-orm"
 import { products } from "@/db/schema"
 import { toast } from "sonner"
-import { useAuth } from "@clerk/nextjs"
+// import { useAuth } from "@clerk/nextjs"
 import { cn } from "@/lib/utils"
 type Product = InferSelectModel<typeof products>
 
 export default function ProductVoting({ product }: { product: Product }) {
-  const { isSignedIn, isLoaded } = useAuth()
-
-  // Only disable if auth is loaded AND user is not signed in
-  // If auth is still loading (isLoaded = false), keep disabled to prevent premature clicks
-  const isDisabled = !isLoaded || !isSignedIn
+  // const { isSignedIn } = useAuth()
 
   const [optimisticVoteCount, setOptimisticVoteCount] = useOptimistic(
     product.voteCount,
@@ -80,35 +76,29 @@ export default function ProductVoting({ product }: { product: Product }) {
   return (
     <div
       className="flex flex-col items-center justify-start gap-1 shrink-0"
-      onClickCapture={e => {
+      onClick={e => {
         // Stop propagation to prevent Link navigation
-        const target = e.target as HTMLElement
+        // const target = e.target as HTMLElement
         // If clicking on a button, let it handle the click
         // Otherwise, stop propagation to prevent Link navigation
-        if (!target.closest("button")) {
-          e.stopPropagation()
-        }
-        // If not signed in and clicking outside button, show error
-        if (!isSignedIn && !target.closest("button")) {
-          e.preventDefault()
-          toast.error("You must be logged in to vote")
-        }
+        // if (!target.closest("button")) {
+        e.stopPropagation()
+        // }
       }}
     >
       <Button
         variant="ghost"
         size="icon"
-        className={isSignedIn ? "text-sky-500" : "text-foreground/25 "}
+        className="text-sky-500"
         onClick={e => handleVote(e, "up")}
-        disabled={isDisabled}
-        aria-label={isSignedIn ? "Upvote" : "Sign in to vote"}
+        aria-label="Upvote"
       >
         <ChevronUpIcon className="w-4 h-4 " />
       </Button>
       <span
         className={cn(
           "text-sm font-semibold transition-colors",
-          isSignedIn ? "text-sky-600" : "text-foreground/25"
+          "text-sky-600"
         )}
       >
         {optimisticVoteCount}
@@ -116,10 +106,9 @@ export default function ProductVoting({ product }: { product: Product }) {
       <Button
         variant="ghost"
         size="icon"
-        className={isSignedIn ? "text-sky-500" : "text-foreground/25"}
+        className="text-sky-500"
         onClick={e => handleVote(e, "down")}
-        disabled={isDisabled}
-        aria-label={isSignedIn ? "Downvote" : "Sign in to vote"}
+        aria-label="Downvote"
       >
         <ChevronDownIcon className="w-4 h-4 " />
       </Button>
