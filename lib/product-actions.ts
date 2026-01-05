@@ -156,13 +156,13 @@ export async function addProductAction(prevState: State, formData: FormData) {
 
 export async function upvoteProductAction(productId: number) {
   try {
-    const { userId } = await auth()
-    if (!userId) {
-      return {
-        success: false,
-        message: "You must be logged in to vote",
-      }
-    }
+    // const { userId } = await auth()
+    // if (!userId) {
+    //   return {
+    //     success: false,
+    //     message: "You must be logged in to vote",
+    //   }
+    // }
     await db
       .update(products)
       .set({
@@ -197,13 +197,13 @@ export async function upvoteProductAction(productId: number) {
 }
 export async function downvoteProductAction(productId: number) {
   try {
-    const { userId } = await auth()
-    if (!userId) {
-      return {
-        success: false,
-        message: "You must be logged in to vote",
-      }
-    }
+    // const { userId } = await auth()
+    // if (!userId) {
+    //   return {
+    //     success: false,
+    //     message: "You must be logged in to vote",
+    //   }
+    // }
     await db
       .update(products)
       .set({
