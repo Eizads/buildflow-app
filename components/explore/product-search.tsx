@@ -15,7 +15,7 @@ export default function ProductSearch({
   const [search, setSearch] = useState("")
   const [sortBy, setSortBy] = useState<"recent" | "trending">("recent")
   const productsCopy = [...products]
-  // Filter products directly during render - no useEffect needed
+  // Filter products directly during render - no useEffect needed -
   const filteredProducts =
     search.length > 0
       ? productsCopy.filter(product =>
