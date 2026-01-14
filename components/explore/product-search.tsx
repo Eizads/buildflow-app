@@ -5,12 +5,12 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ClockIcon, TrendingUpIcon } from "lucide-react"
 import ProductCard from "@/components/products/product-card"
-import { ProductType } from "@/lib/types"
+import { ProductWithTranslation } from "@/lib/types"
 
 export default function ProductSearch({
   products,
 }: {
-  products: ProductType[]
+  products: ProductWithTranslation[]
 }) {
   const [search, setSearch] = useState("")
   const [sortBy, setSortBy] = useState<"recent" | "trending">("recent")
